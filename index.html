@@ -1,0 +1,1798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kairos Financial CRM — Text, Call & Close More Deals</title>
+  <meta name="description" content="The all-in-one CRM built for insurance agents. Text clients, automate follow-ups, and never lose a lead again." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #09090f;
+      --bg2:         #0e0e1a;
+      --bg3:         #13131f;
+      --border:      rgba(255,255,255,0.07);
+      --border-glow: rgba(124,58,237,0.4);
+      --purple:      #7c3aed;
+      --purple-mid:  #9333ea;
+      --purple-light:#a855f7;
+      --pink:        #ec4899;
+      --text:        #ffffff;
+      --text-2:      #a1a1aa;
+      --text-3:      #52525b;
+      --green:       #22c55e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── NOISE OVERLAY ─────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* ─── GRADIENT GLOW BLOBS ───────────────────────── */
+    .glow-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── NAV ───────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(16px, 5vw, 64px);
+      height: 64px;
+      background: rgba(9,9,15,0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-logo-text {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.3px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-2);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: inherit;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-sm {
+      font-size: 13px;
+      padding: 7px 16px;
+      border-radius: 8px;
+    }
+
+    .btn-md {
+      font-size: 15px;
+      padding: 11px 24px;
+      border-radius: 10px;
+    }
+
+    .btn-lg {
+      font-size: 16px;
+      padding: 14px 32px;
+      border-radius: 12px;
+    }
+
+    .btn-xl {
+      font-size: 17px;
+      padding: 16px 40px;
+      border-radius: 14px;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-2);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.15);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple) 0%, var(--purple-mid) 50%, var(--pink) 100%);
+      color: white;
+      box-shadow: 0 0 24px rgba(124,58,237,0.4), 0 1px 2px rgba(0,0,0,0.5);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 40px rgba(124,58,237,0.6), 0 4px 16px rgba(0,0,0,0.4);
+    }
+
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    /* ─── SECTIONS ──────────────────────────────────── */
+    section {
+      position: relative;
+      padding: 100px clamp(16px, 5vw, 80px);
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    /* ─── HERO ──────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding-top: 120px;
+      overflow: hidden;
+    }
+
+    .hero-blob-1 {
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(124,58,237,0.35) 0%, transparent 70%);
+      top: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .hero-blob-2 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(236,72,153,0.2) 0%, transparent 70%);
+      bottom: 0;
+      right: 10%;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px 6px 6px;
+      background: rgba(124,58,237,0.12);
+      border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--purple-light);
+      margin-bottom: 32px;
+    }
+
+    .hero-badge-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+    }
+
+    h1 {
+      font-size: clamp(42px, 7vw, 80px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -2.5px;
+      max-width: 800px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #fff 0%, var(--purple-light) 40%, var(--pink) 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--text-2);
+      line-height: 1.6;
+      max-width: 520px;
+      margin: 24px auto 0;
+    }
+
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .hero-price-note {
+      font-size: 13px;
+      color: var(--text-3);
+      margin-top: 16px;
+    }
+
+    .hero-price-note span {
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    /* ─── DASHBOARD MOCKUP ──────────────────────────── */
+    .hero-mockup {
+      position: relative;
+      margin-top: 72px;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .mockup-glow {
+      position: absolute;
+      inset: -40px;
+      background: radial-gradient(ellipse at 50% 40%, rgba(124,58,237,0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .mockup-window {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.04), 0 32px 80px rgba(0,0,0,0.6);
+    }
+
+    .mockup-titlebar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 18px;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; }
+    .dot-y { background: #febc2e; }
+    .dot-g { background: #28c840; }
+
+    .mockup-titlebar-title {
+      margin-left: 8px;
+      font-size: 12px;
+      color: var(--text-3);
+      font-weight: 500;
+    }
+
+    .mockup-body {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      min-height: 380px;
+    }
+
+    .mockup-sidebar {
+      background: rgba(255,255,255,0.02);
+      border-right: 1px solid var(--border);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--text-3);
+      cursor: default;
+    }
+
+    .sidebar-item.active {
+      background: rgba(124,58,237,0.15);
+      color: var(--purple-light);
+    }
+
+    .sidebar-item-icon {
+      font-size: 15px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .mockup-main {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .mockup-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .stat-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    .stat-value {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text);
+      margin-top: 6px;
+      letter-spacing: -0.5px;
+    }
+
+    .stat-trend {
+      font-size: 11px;
+      color: var(--green);
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    .mockup-leads {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .leads-header {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-2);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .lead-row {
+      display: flex;
+      align-items: center;
+      padding: 10px 16px;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+
+    .lead-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .lead-name { font-size: 12px; font-weight: 600; flex: 1; }
+    .lead-status {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 100px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .status-new { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .status-follow { background: rgba(124,58,237,0.15); color: var(--purple-light); }
+    .status-hot { background: rgba(239,68,68,0.15); color: #f87171; }
+    .status-closed { background: rgba(156,163,175,0.15); color: #9ca3af; }
+
+    /* ─── FEATURES GRID ─────────────────────────────── */
+    #features {
+      background: linear-gradient(180deg, transparent 0%, rgba(124,58,237,0.03) 50%, transparent 100%);
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--purple-light);
+      margin-bottom: 16px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 2px;
+      background: var(--purple-light);
+      border-radius: 2px;
+    }
+
+    h2 {
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      max-width: 600px;
+    }
+
+    .section-sub {
+      font-size: 18px;
+      color: var(--text-2);
+      line-height: 1.6;
+      max-width: 500px;
+      margin-top: 16px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 56px;
+    }
+
+    .feature-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0% 0%, rgba(124,58,237,0.08) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(124,58,237,0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+    }
+
+    .feature-card:hover::before { opacity: 1; }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+
+    .feature-card p {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.65;
+    }
+
+    /* ─── HOW IT WORKS ──────────────────────────────── */
+    #how-it-works {
+      text-align: center;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      margin-top: 64px;
+      position: relative;
+    }
+
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 32px;
+      left: calc(16.66% + 32px);
+      right: calc(16.66% + 32px);
+      height: 1px;
+      background: linear-gradient(90deg, var(--border) 0%, var(--border-glow) 50%, var(--border) 100%);
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 32px;
+    }
+
+    .step-num {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 1px solid var(--border-glow);
+      background: rgba(124,58,237,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--purple-light);
+      position: relative;
+      z-index: 1;
+    }
+
+    .step h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 24px;
+      margin-bottom: 12px;
+      letter-spacing: -0.3px;
+    }
+
+    .step p {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.65;
+    }
+
+    /* ─── BENTO / FEATURE SHOWCASE ──────────────────── */
+    #showcase {
+      background: linear-gradient(180deg, transparent 0%, rgba(236,72,153,0.03) 50%, transparent 100%);
+    }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: auto;
+      gap: 16px;
+      margin-top: 56px;
+    }
+
+    .bento-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      overflow: hidden;
+      position: relative;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .bento-card:hover {
+      border-color: rgba(124,58,237,0.25);
+      transform: translateY(-2px);
+    }
+
+    .bento-1 { grid-column: span 7; }
+    .bento-2 { grid-column: span 5; }
+    .bento-3 { grid-column: span 4; }
+    .bento-4 { grid-column: span 4; }
+    .bento-5 { grid-column: span 4; }
+
+    .bento-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--purple-light);
+      margin-bottom: 12px;
+    }
+
+    .bento-card h3 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .bento-card p {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 1.65;
+    }
+
+    /* SMS Thread mockup */
+    .sms-thread {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .sms-msg {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+
+    .sms-msg.outgoing { flex-direction: row-reverse; }
+
+    .sms-bubble {
+      max-width: 260px;
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .sms-msg.incoming .sms-bubble {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-bottom-left-radius: 4px;
+    }
+
+    .sms-msg.outgoing .sms-bubble {
+      background: linear-gradient(135deg, var(--purple), var(--purple-mid));
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    .sms-time {
+      font-size: 10px;
+      color: var(--text-3);
+      margin-bottom: 2px;
+    }
+
+    /* Automation flow mockup */
+    .flow-steps {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .flow-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      position: relative;
+    }
+
+    .flow-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 15px;
+      bottom: -6px;
+      width: 1px;
+      height: 12px;
+      background: var(--border);
+    }
+
+    .flow-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .flow-text { font-size: 13px; color: var(--text-2); }
+    .flow-text strong { color: var(--text); font-weight: 600; }
+
+    /* Pipeline bar */
+    .pipeline {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pipeline-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pipeline-label {
+      font-size: 12px;
+      color: var(--text-2);
+      width: 60px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .pipeline-bar {
+      flex: 1;
+      height: 8px;
+      background: var(--bg2);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .pipeline-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--purple), var(--pink));
+    }
+
+    .pipeline-count {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      width: 28px;
+    }
+
+    /* ─── PRICING ───────────────────────────────────── */
+    #pricing {
+      text-align: center;
+    }
+
+    .pricing-card {
+      max-width: 480px;
+      margin: 56px auto 0;
+      background: var(--bg3);
+      border: 1px solid rgba(124,58,237,0.4);
+      border-radius: 24px;
+      padding: 48px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 80px rgba(124,58,237,0.15);
+    }
+
+    .pricing-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(124,58,237,0.8), rgba(236,72,153,0.5), transparent);
+    }
+
+    .pricing-badge {
+      display: inline-flex;
+      padding: 4px 14px;
+      background: rgba(124,58,237,0.15);
+      border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--purple-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 24px;
+    }
+
+    .pricing-amount {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .pricing-dollar {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--text-2);
+      margin-top: 12px;
+    }
+
+    .pricing-num {
+      font-size: 80px;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -4px;
+      background: linear-gradient(135deg, #fff 40%, var(--purple-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .pricing-per {
+      font-size: 16px;
+      color: var(--text-3);
+      align-self: flex-end;
+      margin-bottom: 12px;
+    }
+
+    .pricing-tagline {
+      font-size: 15px;
+      color: var(--text-2);
+      margin-top: 12px;
+      margin-bottom: 32px;
+    }
+
+    .pricing-features {
+      list-style: none;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+
+    .pricing-features li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 15px;
+      color: var(--text-2);
+    }
+
+    .check {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(34,197,94,0.15);
+      border: 1px solid rgba(34,197,94,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+
+    /* ─── TESTIMONIALS ──────────────────────────────── */
+    #testimonials {
+      overflow: hidden;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 56px;
+    }
+
+    .testimonial-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    .stars {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: #fbbf24;
+    }
+
+    .testimonial-text {
+      font-size: 15px;
+      color: var(--text-2);
+      line-height: 1.65;
+      margin-bottom: 24px;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .author-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .author-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .author-title {
+      font-size: 12px;
+      color: var(--text-3);
+      margin-top: 2px;
+    }
+
+    /* ─── CTA BANNER ────────────────────────────────── */
+    #cta-banner {
+      text-align: center;
+      padding: 80px clamp(16px, 5vw, 80px);
+    }
+
+    .cta-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      background: var(--bg3);
+      border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 28px;
+      padding: 64px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-inner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% -20%, rgba(124,58,237,0.2) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .cta-inner h2 {
+      max-width: 100%;
+      font-size: clamp(28px, 4vw, 48px);
+    }
+
+    .cta-inner p {
+      font-size: 17px;
+      color: var(--text-2);
+      margin-top: 16px;
+      line-height: 1.6;
+    }
+
+    .cta-buttons {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 36px;
+      flex-wrap: wrap;
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px clamp(16px, 5vw, 80px);
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .footer-copy {
+      font-size: 13px;
+      color: var(--text-3);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: var(--text-3);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--text-2); }
+
+    /* ─── MODAL ──────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 9000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: var(--bg3);
+      border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 560px;
+      overflow: hidden;
+      position: relative;
+      transform: scale(0.96) translateY(8px);
+      transition: transform 0.25s ease;
+      box-shadow: 0 0 80px rgba(124,58,237,0.2), 0 32px 80px rgba(0,0,0,0.6);
+    }
+
+    .modal-overlay.open .modal {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .modal-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-title-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .modal-title h3 {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    .modal-title p {
+      font-size: 12px;
+      color: var(--text-3);
+      margin-top: 1px;
+    }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-2);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: rgba(255,255,255,0.07);
+      color: var(--text);
+    }
+
+    .modal-body {
+      height: 520px;
+    }
+
+    .modal-body iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    .modal-loading {
+      position: absolute;
+      inset: 68px 0 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background: var(--bg3);
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal-loading.hidden { opacity: 0; }
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid rgba(124,58,237,0.2);
+      border-top-color: var(--purple-light);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .modal-loading p {
+      font-size: 14px;
+      color: var(--text-3);
+    }
+
+    /* ─── DIVIDER ────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    /* ─── MOBILE ─────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .steps-grid::before { display: none; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .mockup-body { grid-template-columns: 1fr; }
+      .mockup-sidebar { display: none; }
+      .bento-1, .bento-2, .bento-3, .bento-4, .bento-5 { grid-column: span 12; }
+      .bento-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .mockup-stats { grid-template-columns: repeat(2, 1fr); }
+      .cta-inner { padding: 40px 24px; }
+      .pricing-card { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ────────────────────────────── NAV ────────────────────────────── -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">K</div>
+      <span class="nav-logo-text">Kairos Financial CRM</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="btn btn-primary btn-sm" onclick="openPayment()">Get Started — $50/mo</button>
+    </div>
+  </nav>
+
+  <!-- ────────────────────────────── HERO ───────────────────────────── -->
+  <section id="hero">
+    <div class="glow-blob hero-blob-1"></div>
+    <div class="glow-blob hero-blob-2"></div>
+
+    <div class="hero-badge">
+      <span class="hero-badge-dot">⚡</span>
+      Built for insurance agents
+    </div>
+
+    <h1>
+      The CRM that <span class="gradient-text">texts, calls,<br />and closes</span> for you.
+    </h1>
+
+    <p class="hero-sub">
+      Kairos Financial CRM puts your follow-ups on autopilot. Text and call clients directly from one dashboard, track every lead, and never let a deal slip through the cracks again.
+    </p>
+
+    <div class="hero-cta">
+      <button class="btn btn-primary btn-lg" onclick="openPayment()">
+        Start for $50/month
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10m-4-4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <a href="#features" class="btn btn-outline btn-lg">See features</a>
+    </div>
+
+    <p class="hero-price-note"><span>No contracts.</span> Cancel anytime. First month free with annual billing.</p>
+
+    <!-- Dashboard Mockup -->
+    <div class="hero-mockup container">
+      <div class="mockup-glow"></div>
+      <div class="mockup-window">
+        <div class="mockup-titlebar">
+          <span class="dot dot-r"></span>
+          <span class="dot dot-y"></span>
+          <span class="dot dot-g"></span>
+          <span class="mockup-titlebar-title">Kairos Financial CRM — Dashboard</span>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-sidebar">
+            <div class="sidebar-item active">
+              <span class="sidebar-item-icon">◾</span> Dashboard
+            </div>
+            <div class="sidebar-item">
+              <span class="sidebar-item-icon">💬</span> Messages
+            </div>
+            <div class="sidebar-item">
+              <span class="sidebar-item-icon">📞</span> Calls
+            </div>
+            <div class="sidebar-item">
+              <span class="sidebar-item-icon">👥</span> Leads
+            </div>
+            <div class="sidebar-item">
+              <span class="sidebar-item-icon">🔄</span> Automations
+            </div>
+            <div class="sidebar-item">
+              <span class="sidebar-item-icon">📊</span> Reports
+            </div>
+            <div class="sidebar-item">
+              <span class="sidebar-item-icon">⚙️</span> Settings
+            </div>
+          </div>
+          <div class="mockup-main">
+            <div class="mockup-stats">
+              <div class="stat-card">
+                <div class="stat-label">Active Leads</div>
+                <div class="stat-value">142</div>
+                <div class="stat-trend">↑ 12 this week</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Messages Sent</div>
+                <div class="stat-value">2,384</div>
+                <div class="stat-trend">↑ 8% vs last mo</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Closed This Month</div>
+                <div class="stat-value">$18k</div>
+                <div class="stat-trend">↑ 23% vs last mo</div>
+              </div>
+            </div>
+            <div class="mockup-leads">
+              <div class="leads-header">
+                <span>Recent Leads</span>
+                <span style="color: var(--purple-light); cursor: pointer;">View all →</span>
+              </div>
+              <div class="lead-row">
+                <div class="lead-avatar" style="background: rgba(124,58,237,0.2); color: var(--purple-light);">MJ</div>
+                <span class="lead-name">Marcus Johnson</span>
+                <span class="lead-status status-hot">Hot</span>
+              </div>
+              <div class="lead-row">
+                <div class="lead-avatar" style="background: rgba(34,197,94,0.15); color: #22c55e;">SR</div>
+                <span class="lead-name">Sandra Rivera</span>
+                <span class="lead-status status-new">New</span>
+              </div>
+              <div class="lead-row">
+                <div class="lead-avatar" style="background: rgba(251,191,36,0.15); color: #fbbf24;">DK</div>
+                <span class="lead-name">David Kim</span>
+                <span class="lead-status status-follow">Follow-up</span>
+              </div>
+              <div class="lead-row">
+                <div class="lead-avatar" style="background: rgba(156,163,175,0.1); color: #9ca3af;">LP</div>
+                <span class="lead-name">Lisa Patel</span>
+                <span class="lead-status status-closed">Closed</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ────────────────────────────── FEATURES ───────────────────────── -->
+  <section id="features">
+    <div class="container">
+      <div class="section-label">Features</div>
+      <h2>Everything an insurance agent needs to <span class="gradient-text">close more deals.</span></h2>
+      <p class="section-sub">One platform to manage your entire pipeline — from first contact to closed policy.</p>
+
+      <div class="features-grid">
+
+        <div class="feature-card">
+          <div class="feature-icon" style="background: rgba(124,58,237,0.15);">💬</div>
+          <h3>2-Way Text Messaging</h3>
+          <p>Send and receive texts directly from your CRM. Build real relationships with clients through personal, timely messages — all in one inbox.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="background: rgba(236,72,153,0.15);">📞</div>
+          <h3>Built-in Calling</h3>
+          <p>Call clients with a single click. Every call is logged automatically with notes, duration, and outcome so your team always has context.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="background: rgba(34,197,94,0.12);">🤖</div>
+          <h3>Automated Follow-ups</h3>
+          <p>Set it and forget it. Build drip campaigns that send personalized texts and emails on autopilot — so no lead goes cold again.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="background: rgba(251,191,36,0.12);">📊</div>
+          <h3>Visual Pipeline</h3>
+          <p>Drag-and-drop leads through your custom sales pipeline. See exactly where every deal stands and what needs your attention today.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="background: rgba(59,130,246,0.15);">⚡</div>
+          <h3>Instant Lead Capture</h3>
+          <p>Leads from your website, social ads, or referrals land directly in Kairos. Get an instant notification and start the conversation fast.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon" style="background: rgba(239,68,68,0.12);">🎯</div>
+          <h3>Smart Reminders</h3>
+          <p>Never miss a callback or renewal. Kairos surfaces the right leads at the right time with intelligent reminders and task management.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ────────────────────────────── HOW IT WORKS ────────────────────── -->
+  <section id="how-it-works">
+    <div class="container">
+      <div class="section-label" style="justify-content: center;">How it works</div>
+      <h2 style="margin: 0 auto; text-align: center;">Up and running <span class="gradient-text">in minutes.</span></h2>
+
+      <div class="steps-grid">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Import your leads</h3>
+          <p>Upload a spreadsheet or connect your existing tools. All your contacts are organized and ready to work instantly.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Set up automations</h3>
+          <p>Choose from proven follow-up templates or build your own. Kairos sends the right message at the right moment — automatically.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Close more policies</h3>
+          <p>Focus on conversations that matter. Your pipeline stays full and your clients feel heard — without the manual work.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ────────────────────────────── BENTO SHOWCASE ─────────────────── -->
+  <section id="showcase">
+    <div class="container">
+      <div class="section-label">In action</div>
+      <h2>Built for the way agents <span class="gradient-text">actually work.</span></h2>
+
+      <div class="bento-grid">
+
+        <!-- SMS Thread -->
+        <div class="bento-card bento-1">
+          <div class="bento-label">2-way messaging</div>
+          <h3>Text clients like a human, at scale.</h3>
+          <p>Personalized messages that feel real — sent automatically or manually in seconds.</p>
+          <div class="sms-thread">
+            <div class="sms-msg outgoing">
+              <div>
+                <div class="sms-time" style="text-align:right;">You · 10:14 AM</div>
+                <div class="sms-bubble">Hi Marcus! This is Sarah from Kairos Insurance. Just wanted to follow up on your home policy quote. Do you have a few minutes today?</div>
+              </div>
+            </div>
+            <div class="sms-msg incoming">
+              <div>
+                <div class="sms-time">Marcus · 10:31 AM</div>
+                <div class="sms-bubble">Hey Sarah! Yes, I've been meaning to call you back. Can we chat at 3pm?</div>
+              </div>
+            </div>
+            <div class="sms-msg outgoing">
+              <div>
+                <div class="sms-time" style="text-align:right;">You · 10:33 AM</div>
+                <div class="sms-bubble">Perfect! 3pm works great. I'll send you a calendar invite. Talk soon! 🎉</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Automation Flow -->
+        <div class="bento-card bento-2">
+          <div class="bento-label">Automation</div>
+          <h3>Follow-ups that never forget.</h3>
+          <p>Build drip sequences in minutes. Let Kairos do the outreach while you focus on closing.</p>
+          <div class="flow-steps">
+            <div class="flow-step">
+              <div class="flow-icon" style="background: rgba(34,197,94,0.15);">🟢</div>
+              <div class="flow-text"><strong>New lead added</strong> · trigger fires</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-icon" style="background: rgba(124,58,237,0.15);">💬</div>
+              <div class="flow-text"><strong>Immediate text</strong> · welcome message sent</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-icon" style="background: rgba(59,130,246,0.15);">⏱</div>
+              <div class="flow-text"><strong>+2 days</strong> · follow-up if no reply</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-icon" style="background: rgba(251,191,36,0.12);">📞</div>
+              <div class="flow-text"><strong>+5 days</strong> · call reminder created</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-icon" style="background: rgba(239,68,68,0.12);">🔁</div>
+              <div class="flow-text"><strong>+14 days</strong> · re-engagement drip</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pipeline -->
+        <div class="bento-card bento-3">
+          <div class="bento-label">Lead pipeline</div>
+          <h3>Always know where your deals stand.</h3>
+          <div class="pipeline">
+            <div class="pipeline-row">
+              <div class="pipeline-label">New</div>
+              <div class="pipeline-bar"><div class="pipeline-fill" style="width:85%"></div></div>
+              <div class="pipeline-count">34</div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-label">Contacted</div>
+              <div class="pipeline-bar"><div class="pipeline-fill" style="width:65%"></div></div>
+              <div class="pipeline-count">26</div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-label">Quoted</div>
+              <div class="pipeline-bar"><div class="pipeline-fill" style="width:45%"></div></div>
+              <div class="pipeline-count">18</div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-label">Follow-up</div>
+              <div class="pipeline-bar"><div class="pipeline-fill" style="width:30%"></div></div>
+              <div class="pipeline-count">12</div>
+            </div>
+            <div class="pipeline-row">
+              <div class="pipeline-label">Closed</div>
+              <div class="pipeline-bar"><div class="pipeline-fill" style="width:20%; background: linear-gradient(90deg, #22c55e, #16a34a);"></div></div>
+              <div class="pipeline-count" style="color: var(--green);">8</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stat cards -->
+        <div class="bento-card bento-4" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div class="bento-label">Response time</div>
+            <h3>Respond in under 5 minutes.</h3>
+            <p style="font-size:13px; margin-top:8px;">Leads reached within 5 minutes are 21x more likely to convert.</p>
+          </div>
+          <div style="margin-top:24px; display:flex; align-items:flex-end; gap:12px;">
+            <div>
+              <div style="font-size:52px; font-weight:900; line-height:1; background: linear-gradient(135deg, #fff 40%, var(--purple-light)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:-3px;">21×</div>
+              <div style="font-size:12px; color:var(--text-3); margin-top:6px;">higher conversion rate</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bento-card bento-5" style="display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div class="bento-label">Time saved</div>
+            <h3>Hours back every week.</h3>
+            <p style="font-size:13px; margin-top:8px;">Agents report saving 10+ hours per week on manual outreach.</p>
+          </div>
+          <div style="margin-top:24px;">
+            <div style="font-size:52px; font-weight:900; line-height:1; background: linear-gradient(135deg, #fff 40%, var(--pink)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; letter-spacing:-3px;">10h+</div>
+            <div style="font-size:12px; color:var(--text-3); margin-top:6px;">saved per agent per week</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ────────────────────────────── TESTIMONIALS ────────────────────── -->
+  <section id="testimonials">
+    <div class="container">
+      <div class="section-label">Testimonials</div>
+      <h2>Agents love <span class="gradient-text">Kairos.</span></h2>
+
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">"Before Kairos I was losing leads because I couldn't keep up with follow-ups. Now the system texts them automatically and I just jump in when they're ready to talk. My closes are up 40%."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background: rgba(124,58,237,0.2); color: var(--purple-light);">RB</div>
+            <div>
+              <div class="author-name">Robert Browning</div>
+              <div class="author-title">Independent Insurance Agent · Texas</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">"The 2-way texting alone is worth every penny. Clients respond to texts way more than emails or calls. I can manage 3x as many leads now without extra staff."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background: rgba(236,72,153,0.15); color: var(--pink);">JM</div>
+            <div>
+              <div class="author-name">Jennifer Martinez</div>
+              <div class="author-title">Agency Owner · Florida</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">"Simple, powerful, and built for insurance. I tried four CRMs before Kairos. This is the only one my whole team actually uses. The automated follow-ups are a game changer."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background: rgba(34,197,94,0.12); color: var(--green);">DL</div>
+            <div>
+              <div class="author-name">David Lau</div>
+              <div class="author-title">Senior Agent · California</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ────────────────────────────── PRICING ─────────────────────────── -->
+  <section id="pricing">
+    <div class="container">
+      <div class="section-label" style="justify-content: center;">Pricing</div>
+      <h2 style="margin: 0 auto; text-align: center;">Simple, flat pricing.<br /><span class="gradient-text">No surprises.</span></h2>
+
+      <div class="pricing-card">
+        <div class="pricing-badge">Everything included</div>
+
+        <div class="pricing-amount">
+          <span class="pricing-dollar">$</span>
+          <span class="pricing-num">50</span>
+          <span class="pricing-per">/ month</span>
+        </div>
+
+        <p class="pricing-tagline">One plan. Full access. Built for insurance agents.</p>
+
+        <ul class="pricing-features">
+          <li><span class="check">✓</span> Unlimited 2-way text messaging</li>
+          <li><span class="check">✓</span> Built-in calling with call logs</li>
+          <li><span class="check">✓</span> Automated follow-up sequences</li>
+          <li><span class="check">✓</span> Visual lead pipeline & tracking</li>
+          <li><span class="check">✓</span> Instant lead capture & routing</li>
+          <li><span class="check">✓</span> Smart reminders & task management</li>
+          <li><span class="check">✓</span> Reporting & performance dashboard</li>
+          <li><span class="check">✓</span> Onboarding & live support</li>
+        </ul>
+
+        <button class="btn btn-primary btn-xl" style="width:100%;" onclick="openPayment()">
+          Get started now — $50/month
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8h10m-4-4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <p style="font-size:13px; color:var(--text-3); margin-top:16px; text-align:center;">
+          No contracts · Cancel anytime · Secure payment
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ────────────────────────────── CTA BANNER ──────────────────────── -->
+  <section id="cta-banner">
+    <div class="cta-inner">
+      <div class="section-label" style="justify-content: center;">Get started today</div>
+      <h2>Stop losing leads.<br /><span class="gradient-text">Start closing deals.</span></h2>
+      <p>Join insurance agents who use Kairos to text, call, and follow up automatically — so every lead gets the attention it deserves.</p>
+      <div class="cta-buttons">
+        <button class="btn btn-primary btn-xl" onclick="openPayment()">
+          Start for $50/month
+          <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M3 8h10m-4-4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ────────────────────────────── FOOTER ──────────────────────────── -->
+  <footer>
+    <div class="footer-inner">
+      <a href="#" class="footer-logo">
+        <div class="nav-logo-icon">K</div>
+        <span class="nav-logo-text">Kairos Financial CRM</span>
+      </a>
+      <span class="footer-copy">© 2026 Kairos Financial CRM. All rights reserved.</span>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Support</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ────────────────────────────── PAYMENT MODAL ───────────────────── -->
+  <div class="modal-overlay" id="paymentModal" onclick="handleOverlayClick(event)">
+    <div class="modal" id="modalBox">
+      <div class="modal-header">
+        <div class="modal-title">
+          <div class="modal-title-icon">K</div>
+          <div>
+            <h3>Kairos Financial CRM</h3>
+            <p>Secure checkout · $50/month</p>
+          </div>
+        </div>
+        <button class="modal-close" onclick="closePayment()" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body" style="position:relative;">
+        <div class="modal-loading" id="modalLoading">
+          <div class="spinner"></div>
+          <p>Loading secure checkout…</p>
+        </div>
+        <iframe
+          id="paymentFrame"
+          src="about:blank"
+          title="Secure payment"
+          allow="payment"
+          onload="iframeLoaded()"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const PAYMENT_URL = 'https://link.fastpaydirect.com/payment-link/699b3cee44f21f0629dc103b';
+    let frameLoaded = false;
+
+    function openPayment() {
+      const overlay = document.getElementById('paymentModal');
+      const frame   = document.getElementById('paymentFrame');
+      const loading = document.getElementById('modalLoading');
+
+      // Only set src if not already loaded to prevent reload on second open
+      if (!frameLoaded) {
+        loading.classList.remove('hidden');
+        frame.src = PAYMENT_URL;
+      }
+
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePayment() {
+      const overlay = document.getElementById('paymentModal');
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function handleOverlayClick(e) {
+      // Close only if clicking the backdrop, not the modal itself
+      if (e.target === document.getElementById('paymentModal')) {
+        closePayment();
+      }
+    }
+
+    function iframeLoaded() {
+      frameLoaded = true;
+      const loading = document.getElementById('modalLoading');
+      loading.classList.add('hidden');
+    }
+
+    // Keyboard close
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closePayment();
+    });
+  </script>
+
+</body>
+</html>
